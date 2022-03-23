@@ -8,7 +8,9 @@ function InitialScreen() {
         <main>
             <h2>Selecione o filme</h2>
             <div className="films">
-                {films.map(film => film % 2 !== 0 ? <img key={film} src={f2067} alt="2067"/> : <img key={film} src={enola} alt="enola"/>)}
+                {films.map(film => film % 2 !== 0 ? 
+                    <div className="film"><img key={film} src={f2067} alt="2067"/></div>
+                    : <div className="film"><img key={film} src={enola} alt="enola"/></div>)}
             </div>
         </main>
     )
