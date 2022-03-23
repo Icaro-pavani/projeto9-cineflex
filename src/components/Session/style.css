@@ -1,0 +1,21 @@
+.Session h3 {
+    font-size: 20px;
+    line-height: 23px;
+    letter-spacing: 0.02em;
+    color: #293845;
+    margin-bottom: 22px;
+}
+
+.Session button {
+    width: 83px;
+    height: 43px;
+    color: #fff;
+    border-radius: 3px;
+    background-color: #e8833a;
+    border: none;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.02em;
+    margin-right: 8px;
+    margin-bottom: 23px;
+}

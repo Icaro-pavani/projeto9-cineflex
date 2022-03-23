@@ -9,11 +9,11 @@ function InitialScreen() {
     return (
         <main className="InitialScreen">
             <h2>Selecione o filme</h2>
-            <div className="films">
+            <ul className="films">
                 {films.map(film => film % 2 !== 0 ? 
-                    <div key={film} className="film"><img src={f2067} alt="2067"/></div>
-                    : <div key={film} className="film"><img src={enola} alt="enola"/></div>)}
-            </div>
+                    <li key={film} className="film"><img src={f2067} alt="2067"/></li>
+                    : <li key={film} className="film"><img src={enola} alt="enola"/></li>)}
+            </ul>
         </main>
     )
 }
