@@ -1,11 +1,13 @@
-import f2067 from "./../assets/2067.svg";
-import enola from "./../assets/enola.svg";
+import f2067 from "./assets/2067.svg";
+import enola from "./assets/enola.svg";
+
+import "./style.css";
 
 
 function InitialScreen() {
     const films = [1,2,3,4,5,6,7,8];
     return (
-        <main>
+        <main className="InitialScreen">
             <h2>Selecione o filme</h2>
             <div className="films">
                 {films.map(film => film % 2 !== 0 ? 
