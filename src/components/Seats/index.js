@@ -1,17 +1,22 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
 import SeatsRow from "../SeatsRow";
 import Footer from "../Footer";
 
 import "./style.css";
 
-function createSeatsLayout() {
+function createSeatsLayout({seats}) {
     const seatsMap = [];
     let seatsRow = [];
-    let seat = 0;
+    let seatCount = 0;
+    console.log(seats);
     for (let i = 0; i < 5; i++){
         seatsRow = [];
         for (let j = 0; j < 10; j++){
-            seat++;
-            seatsRow.push(seat.toString().padStart(2, '0'));
+            seatCount++;
+            seatsRow.push([seatCount.toString().padStart(2, '0'), seats[seatCount - 1].isAvailable]);
         }
         seatsMap.push(seatsRow);    
     }
@@ -19,13 +24,30 @@ function createSeatsLayout() {
 }
 
 function Seats() {
-    const seatsMap = createSeatsLayout();
+    const [seatsInfo, setSeatsInfo] = useState({});
+    const {idSession} = useParams();
+
+    let seatsMap = [];
+
+    if (seatsInfo.seats){
+        seatsMap = createSeatsLayout(seatsInfo);
+        console.log(seatsMap);
+    }
+
+    useEffect(() => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSession}/seats`);
+        promise.then(({data}) => {
+            setSeatsInfo(data);
+            console.log(data);
+        });
+        promise.catch(error => console.log(error.response));
+    },[idSession]);
 
     return (
         <div className="Seats">
             <main>
                 <h2>Selecione o(s) assento(s)</h2>
-                {seatsMap.map(seatsRow => <SeatsRow key={seatsRow} seatsRow={seatsRow}/>)}
+                {seatsMap.length === 0 ? "Carregando..." : seatsMap.map(seatsRow => <SeatsRow key={seatsRow} seatsRow={seatsRow}/>)}
                 <div className="seat-info">
                     <div className="example-circle">
                         <div className="circle selected"></div>
@@ -48,7 +70,7 @@ function Seats() {
                     <input className="submit" type="submit" value="Reservar assento(s)" />
                 </form>           
             </main>
-            <Footer image={"teste"} title={"tres"} session="" />
+            {!seatsInfo.movie ? "Carregando..." : <Footer image={seatsInfo.movie.posterURL} title={seatsInfo.movie.title} session={`${seatsInfo.day.weekday} - ${seatsInfo.name}`} />}
         </div>
     );
 }
