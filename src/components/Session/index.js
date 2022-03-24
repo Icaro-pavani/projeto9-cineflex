@@ -1,13 +1,13 @@
 import "./style.css";
 
 function Session(props) {
-    const {session} = props;
+    const {date, showtimes} = props;
 
     return (
         <li className="Session">
-            <h3>{session.date}</h3>
+            <h3>{date}</h3>
             <div className="session-times">
-                {session.time.map((time, index) => <button key={index}>{time}</button>)}
+                {showtimes.map(({id, name}) => <button key={id}>{name}</button>)}
             </div>
         </li>
     );
