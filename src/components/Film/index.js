@@ -1,3 +1,7 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
 import Session from "../Session";
 import Footer from "../Footer";
 
@@ -6,16 +10,11 @@ import enola from "./../InitialScreen/assets/enola.svg";
 import "./style.css";
 
 function Film() {
-    const sessions = [
-        {
-            date: "Quinta-feira - 24/06/2021",
-            time: ["15:00", "19:00"]
-        },
-        {
-            date: "Sexta-feira - 25/06/2021",
-            time: ["15:00", "19:00"]
-        }
-    ]
+    const [sessions, setSessions] = useState([]);
+
+    useEffect(() => {
+        
+    },[]);
 
     return (
         <div className="Film">

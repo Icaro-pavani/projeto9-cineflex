@@ -10,7 +10,7 @@ function App() {
             <Header title="CINEFLEX" />
             <Routes>
                 <Route path="/" element={<InitialScreen />} />
-                <Route path="/filme" element={<Film />} />
+                <Route path="/filme/:idFilm" element={<Film />} />
             </Routes> 
         </BrowserRouter>
     );

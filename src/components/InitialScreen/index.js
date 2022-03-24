@@ -1,18 +1,32 @@
-import f2067 from "./assets/2067.svg";
-import enola from "./assets/enola.svg";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 import "./style.css";
 
 
 function InitialScreen() {
-    const films = [1,2,3,4,5,6,7,8];
+    const [films, setFilms] = useState([]);
+
+    useEffect(() => {
+        const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
+        promise.then(response => {
+            setFilms(response.data);
+        });
+
+        promise.catch(error => console.log(error.response));
+    }, []);
+
+
     return (
         <main className="InitialScreen">
             <h2>Selecione o filme</h2>
             <ul className="films">
-                {films.map(film => film % 2 !== 0 ? 
-                    <li key={film} className="film"><img src={f2067} alt="2067"/></li>
-                    : <li key={film} className="film"><img src={enola} alt="enola"/></li>)}
+                {films.map(({id, posterURL, title}) => (
+                    <li key={id} className="film">
+                        <Link to={`/filme/${id}`}><img src={posterURL} alt={title} /></Link>
+                    </li>
+                ))}
             </ul>
         </main>
     )
