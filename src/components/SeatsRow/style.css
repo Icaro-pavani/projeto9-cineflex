@@ -1,0 +1,21 @@
+.SeatsRow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 9px 24px;
+}
+
+.SeatsRow li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background-color: #c4cfd9;
+    border: 1px solid #808f9d;
+    border-radius: 50%;
+    font-size: 11px;
+    line-height: 13px;
+    letter-spacing: 0.04em;
+    color: #000;
+}

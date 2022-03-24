@@ -23,7 +23,7 @@ function FilmSessions() {
     const {title, posterURL, days} = sessions;
 
     return (
-        <div className="Film">
+        <div className="FilmSessions">
             <main>
                 <h2>Selecione o horário</h2>
                 <ul className="sessions">

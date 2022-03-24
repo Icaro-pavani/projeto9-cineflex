@@ -1,0 +1,12 @@
+.Seats main { 
+    position: relative;
+    top: 67px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Seats h2 {
+    font-size: 24px;
+    margin: 43px 0 15px;
+}

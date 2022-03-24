@@ -1,17 +1,18 @@
-.Film main { 
+.FilmSessions main { 
     position: relative;
     top: 67px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 187px;
 }
 
-.Film h2 {
+.FilmSessions h2 {
     font-size: 24px;
     margin: 43px 0 43px;
 }
 
-.Film .sessions {
+.FilmSessions .sessions {
     width: 100%;
     padding-left: 24px;
 }
