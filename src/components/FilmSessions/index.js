@@ -29,7 +29,7 @@ function FilmSessions() {
                 <ul className="sessions">
                     {
                         !days ? <h3>Carregando...</h3> :
-                        (days.map(({id, weekday, date, showtimes}) => <Session key={id} date={`${weekday} - ${date}`} showtimes={showtimes} />)) 
+                        (days.map(({id, weekday, date, showtimes}) => <Session key={id} id={id} date={`${weekday} - ${date}`} showtimes={showtimes} />)) 
                     }
                 </ul>
             </main>
