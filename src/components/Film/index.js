@@ -1,4 +1,7 @@
 import Session from "../Session";
+import Footer from "../Footer";
+
+import enola from "./../InitialScreen/assets/enola.svg";
 
 import "./style.css";
 
@@ -22,6 +25,7 @@ function Film() {
                     {sessions.map((session, index) => <Session key={index} session={session} />)}
                 </ul>
             </main>
+            <Footer image={enola} title="Enola Holmes" session="" />
         </div>
     );
 }
