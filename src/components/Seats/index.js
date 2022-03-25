@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import SeatsRow from "../SeatsRow";
 import Footer from "../Footer";
+import { cpfMask } from "../cpfMask";
 
 import "./style.css";
 
@@ -11,7 +12,7 @@ function createSeatsLayout({seats}) {
     const seatsMap = [];
     let seatsRow = [];
     let seatCount = 0;
-    console.log(seats);
+    // console.log(seats);
     for (let i = 0; i < 5; i++){
         seatsRow = [];
         for (let j = 0; j < 10; j++){
@@ -26,6 +27,7 @@ function createSeatsLayout({seats}) {
 function Seats() {
     const [seatsInfo, setSeatsInfo] = useState({});
     const {idSession} = useParams();
+    const navigate = useNavigate();
 
     const seatsSelected = {};
     const postReservationObject = {};
@@ -34,7 +36,7 @@ function Seats() {
 
     if (seatsInfo.seats){
         seatsMap = createSeatsLayout(seatsInfo);
-        console.log(seatsMap);
+        // console.log(seatsMap);
     }
 
     useEffect(() => {
@@ -65,7 +67,7 @@ function Seats() {
         } else {
             postReservationObject.ids = reservedSeats;
             const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", postReservationObject);
-            promise.then(response => console.log(response));
+            promise.then(response => navigate("/sucesso", {...postReservationObject, ...seatsInfo}));
             promise.catch(error => console.log(error.response));
         }
 
@@ -96,7 +98,10 @@ function Seats() {
                     <h3>Nome do comprador:</h3>
                     <input name="name" type="text" onChange={event => postReservationObject.name = event.target.value} placeholder="Digite seu nome..." />
                     <h3>CPF do comprador:</h3>
-                    <input name="CPF" type="text" onChange={event => postReservationObject.cpf = event.target.value} placeholder="Digite seu CPF..." />
+                    <input name="CPF" type="text" onChange={event => {
+                        postReservationObject.cpf = event.target.value.replace(/[^0-9]/g, "");
+                        event.target.value = cpfMask(event.target.value); 
+                    }} placeholder="Digite seu CPF..." />
                     <button onClick={() => confirmSeatsReservation(seatsSelected)}>Reservar assento(s)</button>
                 </div>           
             </main>
