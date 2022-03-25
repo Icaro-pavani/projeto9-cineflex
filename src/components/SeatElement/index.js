@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function SeatElement(props) {
-    const {seat, isAvailable, seatsSelected, id} = props;
+    const {seat, isAvailable, setSeatsSelected, id} = props;
     const [select, setSelect] = useState(false);
 
     if (!isAvailable) {
@@ -10,7 +10,10 @@ function SeatElement(props) {
 
     return (
         <li className={select ? "selected" : "available"} onClick={() => {
-            seatsSelected[id] = !select;
+            setSeatsSelected(prevState => ({
+                ...prevState,
+                [id]: !select
+            }));
             setSelect(!select);
         }}>{seat}</li>
     );

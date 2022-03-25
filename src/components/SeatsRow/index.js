@@ -3,11 +3,19 @@ import SeatElement from "../SeatElement";
 import "./style.css";
 
 function SeatsRow(props) {
-    const {seatsRow, seatsSelected} = props;
+    const {seatsRow, setSeatsSelected} = props;
 
     return (
         <ul className="SeatsRow">
-            {seatsRow.map((seat, index) => <SeatElement key={index} id={seat[2]} isAvailable={seat[1]} seat={seat[0]} seatsSelected={seatsSelected}/>)}
+            {seatsRow.map((seat, index) => (
+                <SeatElement 
+                    key={index} 
+                    id={seat[2]} 
+                    isAvailable={seat[1]} 
+                    seat={seat[0]} 
+                    setSeatsSelected={setSeatsSelected}
+                />
+            ))}
         </ul>
     );
 }
