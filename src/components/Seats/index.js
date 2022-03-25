@@ -16,7 +16,7 @@ function createSeatsLayout({seats}) {
         seatsRow = [];
         for (let j = 0; j < 10; j++){
             seatCount++;
-            seatsRow.push([seatCount.toString().padStart(2, '0'), seats[seatCount - 1].isAvailable]);
+            seatsRow.push([seatCount.toString().padStart(2, '0'), seats[seatCount - 1].isAvailable, seats[seatCount - 1].id]);
         }
         seatsMap.push(seatsRow);    
     }
@@ -26,6 +26,9 @@ function createSeatsLayout({seats}) {
 function Seats() {
     const [seatsInfo, setSeatsInfo] = useState({});
     const {idSession} = useParams();
+
+    const seatsSelected = {};
+    const postReservationObject = {};
 
     let seatsMap = [];
 
@@ -43,11 +46,38 @@ function Seats() {
         promise.catch(error => console.log(error.response));
     },[idSession]);
 
+    function confirmSeatsReservation() {
+        const reservedSeats = [];
+        const seats = Object.entries(seatsSelected);
+        
+        for (let i = 0; i < seats.length; i++) {
+            if (seats[i][1]){
+                reservedSeats.push(Number(seats[i][0]));
+            }
+        }
+
+        if (!postReservationObject.name){
+            alert("Preencha o campo de nome.");
+        } else if (!postReservationObject.cpf || !/\d{3}\.?\d{3}\.?\d{3}-?\d{2}/.test(postReservationObject.cpf)){
+            alert("Preencha o campo de CPF");
+        } else if (reservedSeats.length === 0){
+            alert("Selecione ao menos um assento")
+        } else {
+            postReservationObject.ids = reservedSeats;
+            const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", postReservationObject);
+            promise.then(response => console.log(response));
+            promise.catch(error => console.log(error.response));
+        }
+
+
+        
+    }
+
     return (
         <div className="Seats">
             <main>
                 <h2>Selecione o(s) assento(s)</h2>
-                {seatsMap.length === 0 ? "Carregando..." : seatsMap.map(seatsRow => <SeatsRow key={seatsRow} seatsRow={seatsRow}/>)}
+                {seatsMap.length === 0 ? "Carregando..." : seatsMap.map(seatsRow => <SeatsRow key={seatsRow} seatsRow={seatsRow} seatsSelected={seatsSelected}/>)}
                 <div className="seat-info">
                     <div className="example-circle">
                         <div className="circle selected"></div>
@@ -62,13 +92,13 @@ function Seats() {
                         <p>Indisponível</p>
                     </div>
                 </div> 
-                <form>
+                <div className="form">
                     <h3>Nome do comprador:</h3>
-                    <input name="nome" type="text" placeholder="Digite seu nome..." />
+                    <input name="name" type="text" onChange={event => postReservationObject.name = event.target.value} placeholder="Digite seu nome..." />
                     <h3>CPF do comprador:</h3>
-                    <input name="CPF" type="text" placeholder="Digite seu CPF..." />
-                    <input className="submit" type="submit" value="Reservar assento(s)" />
-                </form>           
+                    <input name="CPF" type="text" onChange={event => postReservationObject.cpf = event.target.value} placeholder="Digite seu CPF..." />
+                    <button onClick={() => confirmSeatsReservation(seatsSelected)}>Reservar assento(s)</button>
+                </div>           
             </main>
             {!seatsInfo.movie ? "Carregando..." : <Footer image={seatsInfo.movie.posterURL} title={seatsInfo.movie.title} session={`${seatsInfo.day.weekday} - ${seatsInfo.name}`} />}
         </div>
