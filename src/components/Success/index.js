@@ -3,12 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { cpfMask } from "../cpfMask";
 
-function Sucess() {
+function Success(props) {
+    const {setConfirmBackButton} = props;
     const {state} = useLocation();
     const {postReservationInfo, seatsInfo} = state;
     const {name, cpf, reservedSeats} = postReservationInfo;
     const {day, movie} = seatsInfo;
     const navigate = useNavigate();
+
+    setConfirmBackButton(true);
 
     console.log(postReservationInfo);
 
@@ -34,7 +37,7 @@ function Sucess() {
     )
 }
 
-export default Sucess;
+export default Success;
 
 const Confirmation = styled.div`
     position: relative;

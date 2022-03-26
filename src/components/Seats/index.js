@@ -23,7 +23,8 @@ function createSeatsLayout({seats}) {
     return seatsMap;
 }
 
-export default function Seats() {
+export default function Seats(props) {
+    const {setConfirmBackButton} = props;
     const [seatsInfo, setSeatsInfo] = useState({});
     const [name, setName] = useState("");
     const [cpf, setCPF] = useState("");
@@ -32,6 +33,7 @@ export default function Seats() {
     const {idSession} = useParams();
     const navigate = useNavigate();
 
+    setConfirmBackButton(true);
     let seatsMap = [];
     
     if (seatsInfo.seats){
