@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { cpfMask } from "../cpfMask";
 
@@ -8,6 +8,7 @@ function Sucess() {
     const {postReservationInfo, seatsInfo} = state;
     const {name, cpf, reservedSeats} = postReservationInfo;
     const {day, movie} = seatsInfo;
+    const navigate = useNavigate();
 
     console.log(postReservationInfo);
 
@@ -28,7 +29,7 @@ function Sucess() {
                 <p>Nome: {name}</p>
                 <p>CPF: {cpfMask(cpf)}</p>
             </PurchaseInfo>
-            <button>Voltar pra Home</button>
+            <button onClick={() => navigate("/")} >Voltar pra Home</button>
         </Confirmation>
     )
 }
@@ -69,7 +70,7 @@ const Confirmation = styled.div`
 
 const PurchaseInfo = styled.div`
     width: 100%;
-    padding-left: 29px;
+    padding: 0 8%;
 
     h3 {
         color: #293845;
