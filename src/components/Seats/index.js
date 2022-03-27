@@ -74,12 +74,15 @@ export default function Seats() {
                 alert("Preencha corretamento todo os campos de CPF.");
             } else {
                 buyers.push({ idAssento: reservedSeats[i], nome: names[reservedSeats[i]], cpf: cpfs[reservedSeats[i]] });
-                const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", { ids: reservedSeats, compradores: buyers });
-                promise.then(response => {
-                    navigate("/sucesso", { state: { postReservationInfo: { reservedSeats, buyers }, seatsInfo: seatsInfo } });
-                });
-                promise.catch(error => console.log(error.response));
             }
+        }
+
+        if (buyers.length === reservedSeats.length){
+            const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", { ids: reservedSeats, compradores: buyers });
+            promise.then(response => {
+                navigate("/sucesso", { state: { postReservationInfo: { reservedSeats, buyers }, seatsInfo: seatsInfo } });
+            });
+            promise.catch(error => console.log(error.response));
         }
     }
 
