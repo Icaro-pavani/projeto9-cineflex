@@ -10,11 +10,21 @@ function SeatElement(props) {
 
     return (
         <li className={select ? "selected" : "available"} onClick={() => {
-            setSeatsSelected(prevState => ({
-                ...prevState,
-                [id]: !select
-            }));
-            setSelect(!select);
+            if (select) {
+                if (window.confirm("Você deseja mesmo remover este assento?")){
+                    setSeatsSelected(prevState => ({
+                        ...prevState,
+                        [id]: !select
+                    }));
+                    setSelect(!select);
+                }                
+            } else {
+                setSeatsSelected(prevState => ({
+                    ...prevState,
+                    [id]: !select
+                }));
+                setSelect(!select);
+            }
         }}>{seat}</li>
     );
 }

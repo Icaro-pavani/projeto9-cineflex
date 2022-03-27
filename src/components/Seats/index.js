@@ -52,11 +52,11 @@ export default function Seats() {
     },[idSession]);
 
     function updateNameToSeat(value, seatNumber){
-        setNames(prev => ({...prev, [seatNumber]: value}));
+        setNames(prevState => ({...prevState, [seatNumber]: value}));
     }
 
     function updateCPFToSeat(value, seatNumber){
-        setCPFs(prev => ({...prev, [seatNumber]: value}));
+        setCPFs(prevState => ({...prevState, [seatNumber]: value}));
     }
 
     function confirmSeatsReservation(event) {
