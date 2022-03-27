@@ -25,8 +25,8 @@ function createSeatsLayout({seats}) {
 
 export default function Seats() {
     const [seatsInfo, setSeatsInfo] = useState({});
-    const [name, setName] = useState("");
-    const [cpf, setCPF] = useState("");
+    const [names, setNames] = useState({});
+    const [cpfs, setCPFs] = useState({});
     const [seatsSelected, setSeatsSelected] = useState({});
 
 
@@ -51,6 +51,14 @@ export default function Seats() {
         promise.catch(error => console.log(error.response));
     },[idSession]);
 
+    function updateNameToSeat(value, seatNumber){
+        setNames(prev => ({...prev, [seatNumber]: value}));
+    }
+
+    function updateCPFToSeat(value, seatNumber){
+        setCPFs(prev => ({...prev, [seatNumber]: value}));
+    }
+
     function confirmSeatsReservation(event) {
         event.preventDefault();        
         const reservedSeats = [];
@@ -63,18 +71,18 @@ export default function Seats() {
             }
         }
 
-        if (!name){
+        if (!names){
             alert("Preencha o campo de nome.");
-        } else if (!cpf || cpf.length < 11){
+        } else if (!cpfs ){ //|| cpfs.length < 11
             alert("Preencha o campo de CPF");
         } else if (reservedSeats.length === 0){
             alert("Selecione ao menos um assento")
         } else {
             console.log(seats);
-            const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {ids: reservedSeats, name: name, cpf: cpf});
+            const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {ids: reservedSeats, name: names, cpf: cpfs});
             promise.then(response => {
                 console.log(response);
-                navigate("/sucesso", {state : {postReservationInfo:{name, cpf, reservedSeats}, seatsInfo: seatsInfo}});
+                navigate("/sucesso", {state : {postReservationInfo:{names, cpfs, reservedSeats}, seatsInfo: seatsInfo}});
             });
             promise.catch(error => console.log(error.response));
         }
@@ -111,12 +119,12 @@ export default function Seats() {
                                         <div key={index} className={seat[0]}>
                                             <h2>Assento {seat[0] % 100 > 50 ? seat[0] % 100 - 50 : seat[0] % 100}</h2>
                                             <h3>Nome do comprador:</h3>
-                                            <input name="name" type="text" onChange={event => setName(event.target.value)} placeholder="Digite seu nome..." value={name} required/>
+                                            <input name="name" type="text" onChange={event => updateNameToSeat(event.target.value, seat[0])} placeholder="Digite seu nome..." value={names[seat[0]] ? names[seat[0]] : ""} required/>
                                             <h3>CPF do comprador:</h3>
                                             <input name="CPF" type="text" onChange={event => {
                                                 event.target.value = cpfMask(event.target.value); 
-                                                setCPF(event.target.value.replace(/[^0-9]/g, ""));
-                                            }} placeholder="Digite seu CPF..." value={cpfMask(cpf)} required />
+                                                updateCPFToSeat(event.target.value.replace(/[^0-9]/g, ""), seat[0]);
+                                            }} placeholder="Digite seu CPF..." value={cpfs[seat[0]] ? cpfMask(cpfs[seat[0]]) : ""} required />
                                         </div>
                                     );
                                 } else {
