@@ -103,13 +103,29 @@ export default function Seats() {
                     </div>
                 </div> 
                 <form onSubmit={confirmSeatsReservation}>
-                    <h3>Nome do comprador:</h3>
-                    <input name="name" type="text" onChange={event => setName(event.target.value)} placeholder="Digite seu nome..." value={name} required/>
-                    <h3>CPF do comprador:</h3>
-                    <input name="CPF" type="text" onChange={event => {
-                        event.target.value = cpfMask(event.target.value); 
-                        setCPF(event.target.value.replace(/[^0-9]/g, ""));
-                    }} placeholder="Digite seu CPF..." value={cpfMask(cpf)} required />
+                    {seats.length !== 0 ? (
+                        <>
+                            {seats.map((seat,index) => {
+                                if (seat[1]){
+                                    return (
+                                        <div key={index} className={seat[0]}>
+                                            <h2>Assento {seat[0] % 100 > 50 ? seat[0] % 100 - 50 : seat[0] % 100}</h2>
+                                            <h3>Nome do comprador:</h3>
+                                            <input name="name" type="text" onChange={event => setName(event.target.value)} placeholder="Digite seu nome..." value={name} required/>
+                                            <h3>CPF do comprador:</h3>
+                                            <input name="CPF" type="text" onChange={event => {
+                                                event.target.value = cpfMask(event.target.value); 
+                                                setCPF(event.target.value.replace(/[^0-9]/g, ""));
+                                            }} placeholder="Digite seu CPF..." value={cpfMask(cpf)} required />
+                                        </div>
+                                    );
+                                } else {
+                                    return false;
+                                }
+                            })}
+                        </>
+                    ) : <></>}
+                    
                     <button type="submit">Reservar assento(s)</button>
                 </form>           
             </main>
