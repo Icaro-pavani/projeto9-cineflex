@@ -8,12 +8,9 @@ import Footer from "../Footer";
 import "./style.css";
 
 function FilmSessions(props) {
-    const {setConfirmBackButton} = props;
     const [sessions, setSessions] = useState({});
     const {idFilm} = useParams();
 
-
-    setConfirmBackButton(true);
 
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilm}/showtimes`);

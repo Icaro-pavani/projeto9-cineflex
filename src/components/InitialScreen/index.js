@@ -5,11 +5,8 @@ import axios from "axios";
 import "./style.css";
 
 
-function InitialScreen(props) {
-    const {setConfirmBackButton} = props;
+function InitialScreen() {
     const [films, setFilms] = useState([]);
-
-    setConfirmBackButton(false);
 
     useEffect(() => {
         const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");

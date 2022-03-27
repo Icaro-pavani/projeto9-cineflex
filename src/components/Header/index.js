@@ -1,9 +1,23 @@
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import styled from "styled-components";
 
 function Header(props) {
-    const {confirmBackButton} = props;
+    const [confirmBackButton, setConfirmBackButton] = useState(false);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.pathname === "/"){
+            setConfirmBackButton(false);
+        } else {
+            setConfirmBackButton(true);
+        }
+    },[location])
+
+    
+    
     const navigate = useNavigate();
 
     return (

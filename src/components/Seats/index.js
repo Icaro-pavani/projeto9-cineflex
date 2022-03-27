@@ -23,17 +23,19 @@ function createSeatsLayout({seats}) {
     return seatsMap;
 }
 
-export default function Seats(props) {
-    const {setConfirmBackButton} = props;
+export default function Seats() {
     const [seatsInfo, setSeatsInfo] = useState({});
     const [name, setName] = useState("");
     const [cpf, setCPF] = useState("");
     const [seatsSelected, setSeatsSelected] = useState({});
 
+
+    const seats = Object.entries(seatsSelected);
+    console.log(seats);
+
     const {idSession} = useParams();
     const navigate = useNavigate();
 
-    setConfirmBackButton(true);
     let seatsMap = [];
     
     if (seatsInfo.seats){
@@ -52,7 +54,7 @@ export default function Seats(props) {
     function confirmSeatsReservation(event) {
         event.preventDefault();        
         const reservedSeats = [];
-        const seats = Object.entries(seatsSelected);
+        
         console.log(seats);
         
         for (let i = 0; i < seats.length; i++) {
