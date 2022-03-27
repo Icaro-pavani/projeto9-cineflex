@@ -92,7 +92,7 @@ export default function Seats() {
                 <div className="Seats">
                     <main>
                         <h2>Selecione o(s) assento(s)</h2>
-                        {seatsMap.map(seatsRow => <SeatsRow key={seatsRow} seatsRow={seatsRow} setSeatsSelected={setSeatsSelected} />)}
+                        {seatsMap.map(seatsRow => <SeatsRow key={seatsRow} seatsRow={seatsRow} names={names} cpfs={cpfs} setSeatsSelected={setSeatsSelected} />)}
                         <div className="seat-info">
                             <div className="example-circle">
                                 <div className="circle selected"></div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function SeatElement(props) {
-    const {seat, isAvailable, setSeatsSelected, id} = props;
+    const {seat, isAvailable, setSeatsSelected, id, names, cpfs} = props;
     const [select, setSelect] = useState(false);
 
     if (!isAvailable) {
@@ -10,7 +10,7 @@ function SeatElement(props) {
 
     return (
         <li className={select ? "selected" : "available"} onClick={() => {
-            if (select) {
+            if (select && (names[id] || cpfs[id])) {
                 if (window.confirm("Você deseja mesmo remover este assento?")){
                     setSeatsSelected(prevState => ({
                         ...prevState,
