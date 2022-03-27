@@ -6,7 +6,6 @@ import Loading from "../Loading";
 
 import "./style.css";
 
-
 function InitialScreen() {
     const [films, setFilms] = useState([]);
 

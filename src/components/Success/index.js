@@ -10,9 +10,6 @@ function Success() {
     const {day, movie} = seatsInfo;
     const navigate = useNavigate();
 
-
-    console.log(postReservationInfo);
-
     return (
         <Confirmation>
             <h2>Pedido feito com sucesso!</h2>

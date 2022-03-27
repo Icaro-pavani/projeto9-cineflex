@@ -15,8 +15,6 @@ function Header(props) {
             setConfirmBackButton(true);
         }
     },[location])
-
-    
     
     const navigate = useNavigate();
 

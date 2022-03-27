@@ -8,17 +8,15 @@ import Loading from "../Loading";
 
 import "./style.css";
 
-function FilmSessions(props) {
+function FilmSessions() {
     const [sessions, setSessions] = useState({});
     const { idFilm } = useParams();
-
 
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilm}/showtimes`);
         promise.then(response => {
             setSessions(response.data);
         });
-
         promise.catch(error => console.log(error.response));
     }, [idFilm]);
 

@@ -31,17 +31,12 @@ export default function Seats() {
     const [cpfs, setCPFs] = useState({});
     const [seatsSelected, setSeatsSelected] = useState({});
 
-
     const seats = Object.entries(seatsSelected);
 
     const { idSession } = useParams();
     const navigate = useNavigate();
 
     let seatsMap = [];
-
-    // console.log(names);
-    // console.log(cpfs);
-
 
     if (seatsInfo.seats) {
         seatsMap = createSeatsLayout(seatsInfo);
@@ -51,7 +46,6 @@ export default function Seats() {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSession}/seats`);
         promise.then(({ data }) => {
             setSeatsInfo(data);
-            console.log(data);
         });
         promise.catch(error => console.log(error.response));
     }, [idSession]);
@@ -75,10 +69,6 @@ export default function Seats() {
             }
         }
 
-        console.log(names, cpfs);
-        console.log(reservedSeats);
-        console.log(names[reservedSeats[0]]);
-
         for (let i = 0; i < reservedSeats.length; i++) {
             if (cpfs[reservedSeats[i]].length < 11) {
                 alert("Preencha corretamento todo os campos de CPF.");
@@ -86,14 +76,11 @@ export default function Seats() {
                 buyers.push({ idAssento: reservedSeats[i], nome: names[reservedSeats[i]], cpf: cpfs[reservedSeats[i]] });
                 const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", { ids: reservedSeats, compradores: buyers });
                 promise.then(response => {
-                    console.log(response);
                     navigate("/sucesso", { state: { postReservationInfo: { reservedSeats, buyers }, seatsInfo: seatsInfo } });
                 });
                 promise.catch(error => console.log(error.response));
             }
         }
-
-        console.log(buyers);
     }
 
     return (
