@@ -4,12 +4,13 @@ import axios from "axios";
 
 import Session from "../Session";
 import Footer from "../Footer";
+import Loading from "../Loading";
 
 import "./style.css";
 
 function FilmSessions(props) {
     const [sessions, setSessions] = useState({});
-    const {idFilm} = useParams();
+    const { idFilm } = useParams();
 
 
     useEffect(() => {
@@ -17,25 +18,26 @@ function FilmSessions(props) {
         promise.then(response => {
             setSessions(response.data);
         });
-        
-        promise.catch(error => console.log(error.response));
-    },[idFilm]);
 
-    const {title, posterURL, days} = sessions;
+        promise.catch(error => console.log(error.response));
+    }, [idFilm]);
+
+    const { title, posterURL, days } = sessions;
 
     return (
-        <div className="FilmSessions">
-            <main>
-                <h2>Selecione o horário</h2>
-                <ul className="sessions">
-                    {
-                        !days ? <h3>Carregando...</h3> :
-                        (days.map(({id, weekday, date, showtimes}) => <Session key={id} date={`${weekday} - ${date}`} showtimes={showtimes} />)) 
-                    }
-                </ul>
-            </main>
-            <Footer image={posterURL} title={title} session="" />
-        </div>
+        <>
+            {!sessions.days ? <Loading /> : (
+                <div className="FilmSessions">
+                    <main>
+                        <h2>Selecione o horário</h2>
+                        <ul className="sessions">
+                            {days.map(({ id, weekday, date, showtimes }) => <Session key={id} date={`${weekday} - ${date}`} showtimes={showtimes} />)}
+                        </ul>
+                    </main>
+                    <Footer image={posterURL} title={title} session="" />
+                </div>
+            )}
+        </>
     );
 }
 

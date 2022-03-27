@@ -26,7 +26,7 @@ function Success() {
                     <PurchaseInfo key={index}>
                         <h3>Comprador Assento {seat % 100 > 50 ? (seat % 100 - 50) : seat % 100}</h3>
                         <p>Nome: {buyers[index].nome}</p>
-                        <p>CPF: {buyers[index].cpf}</p>
+                        <p>CPF: {cpfMask(buyers[index].cpf)}</p>
                     </PurchaseInfo>                
                 );
             })}

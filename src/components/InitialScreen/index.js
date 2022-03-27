@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import Loading from "../Loading";
+
 import "./style.css";
 
 
@@ -19,16 +21,20 @@ function InitialScreen() {
 
 
     return (
-        <main className="InitialScreen">
-            <h2>Selecione o filme</h2>
-            <ul className="films">
-                {films.map(({id, posterURL, title}) => (
-                    <li key={id} className="film">
-                        <Link to={`/filme/${id}`}><img src={posterURL} alt={title} /></Link>
-                    </li>
-                ))}
-            </ul>
-        </main>
+        <>
+            {films.length === 0 ? (<Loading />) : (
+                <main className="InitialScreen">
+                    <h2>Selecione o filme</h2>
+                    <ul className="films">
+                        {films.map(({id, posterURL, title}) => (
+                            <li key={id} className="film">
+                                <Link to={`/filme/${id}`}><img src={posterURL} alt={title} /></Link>
+                            </li>
+                        ))}
+                    </ul>
+                </main>
+            )}
+        </>
     )
 }
 
