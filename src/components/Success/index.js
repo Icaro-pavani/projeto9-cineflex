@@ -6,7 +6,7 @@ import { cpfMask } from "../cpfMask";
 function Success() {
     const {state} = useLocation();
     const {postReservationInfo, seatsInfo} = state;
-    const {name, cpf, reservedSeats} = postReservationInfo;
+    const {buyers, reservedSeats} = postReservationInfo;
     const {day, movie} = seatsInfo;
     const navigate = useNavigate();
 
@@ -21,15 +21,16 @@ function Success() {
                 <p>{movie.title}</p>
                 <p>{day.date} {seatsInfo.name}</p>
             </PurchaseInfo>
-            <PurchaseInfo>
-                <h3>Ingressos</h3>
-                {reservedSeats.map(seat => <p key={seat}>Assento {seat % 100 > 50 ? (seat % 100 - 50) : seat % 100}</p>)}
-            </PurchaseInfo>
-            <PurchaseInfo>
-                <h3>Comprador</h3>
-                <p>Nome: {name}</p>
-                <p>CPF: {cpfMask(cpf)}</p>
-            </PurchaseInfo>
+            {reservedSeats.map((seat, index) => {
+                return (
+                    <PurchaseInfo key={index}>
+                        <h3>Comprador Assento {seat % 100 > 50 ? (seat % 100 - 50) : seat % 100}</h3>
+                        <p>Nome: {buyers[index].nome}</p>
+                        <p>CPF: {buyers[index].cpf}</p>
+                    </PurchaseInfo>                
+                );
+            })}
+            
             <button onClick={() => navigate("/")} >Voltar pra Home</button>
         </Confirmation>
     )

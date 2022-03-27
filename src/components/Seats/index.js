@@ -31,12 +31,15 @@ export default function Seats() {
 
 
     const seats = Object.entries(seatsSelected);
-    console.log(seats);
 
     const {idSession} = useParams();
     const navigate = useNavigate();
 
     let seatsMap = [];
+
+    // console.log(names);
+    // console.log(cpfs);
+    
     
     if (seatsInfo.seats){
         seatsMap = createSeatsLayout(seatsInfo);
@@ -62,8 +65,7 @@ export default function Seats() {
     function confirmSeatsReservation(event) {
         event.preventDefault();        
         const reservedSeats = [];
-        
-        console.log(seats);
+        const buyers = [];
         
         for (let i = 0; i < seats.length; i++) {
             if (seats[i][1]){
@@ -71,24 +73,25 @@ export default function Seats() {
             }
         }
 
-        if (!names){
-            alert("Preencha o campo de nome.");
-        } else if (!cpfs ){ //|| cpfs.length < 11
-            alert("Preencha o campo de CPF");
-        } else if (reservedSeats.length === 0){
-            alert("Selecione ao menos um assento")
-        } else {
-            console.log(seats);
-            const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {ids: reservedSeats, name: names, cpf: cpfs});
-            promise.then(response => {
-                console.log(response);
-                navigate("/sucesso", {state : {postReservationInfo:{names, cpfs, reservedSeats}, seatsInfo: seatsInfo}});
-            });
-            promise.catch(error => console.log(error.response));
+        console.log(names, cpfs);
+        console.log(reservedSeats);
+        console.log(names[reservedSeats[0]]);
+
+        for (let i = 0; i < reservedSeats.length; i++){
+            if (cpfs[reservedSeats[i]].length < 11){
+                alert("Preencha corretamento todo os campos de CPF.");
+            } else {
+                buyers.push({idAssento: reservedSeats[i], nome: names[reservedSeats[i]], cpf: cpfs[reservedSeats[i]]});
+                const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {ids: reservedSeats, compradores: buyers});
+                promise.then(response => {
+                    console.log(response);
+                    navigate("/sucesso", {state : {postReservationInfo:{reservedSeats, buyers}, seatsInfo: seatsInfo}});
+                });
+                promise.catch(error => console.log(error.response));
+            }
         }
 
-
-        
+        console.log(buyers);
     }
 
     return (
@@ -119,7 +122,12 @@ export default function Seats() {
                                         <div key={index} className={seat[0]}>
                                             <h2>Assento {seat[0] % 100 > 50 ? seat[0] % 100 - 50 : seat[0] % 100}</h2>
                                             <h3>Nome do comprador:</h3>
-                                            <input name="name" type="text" onChange={event => updateNameToSeat(event.target.value, seat[0])} placeholder="Digite seu nome..." value={names[seat[0]] ? names[seat[0]] : ""} required/>
+                                            <input name="name" type="text" 
+                                                onChange={event => updateNameToSeat(event.target.value, seat[0])} 
+                                                placeholder="Digite seu nome..." 
+                                                value={names[seat[0]] ? names[seat[0]] : ""} 
+                                                required
+                                            />
                                             <h3>CPF do comprador:</h3>
                                             <input name="CPF" type="text" onChange={event => {
                                                 event.target.value = cpfMask(event.target.value); 
